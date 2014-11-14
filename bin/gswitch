@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+require_relative "../lib/gswitch"
+
+begin
+  GSwitch::Application.new(ARGV).run
+rescue Errno::ENOENT => err
+  abort "gswitch: #{err.message}"
+rescue OptionParser::InvalidOption => err
+  abort "gswitch: #{err.message}\nusage: gswitch [-ps] [branch]"
+end
