@@ -12,14 +12,18 @@ module GSwitch
 
     def run
       ensure_stack_directory_exists
+      options = GSwitch::Options.new @args
+      puts options.set_flags
+      puts options.branch
+      puts options.quiet
 
-      if @args[0]
-        puts "Pushing #{current_branch} ..."
-        @stack.push current_branch
-        puts "git checkout #{@args[0]}"
-      else
-        puts "git checkout #{@stack.pop}"
-      end
+      # if @args[0]
+      #   puts "Pushing #{current_branch} ..."
+      #   @stack.push current_branch
+      #   puts "git checkout #{@args[0]}"
+      # else
+      #   puts "git checkout #{@stack.pop}"
+      # end
 
     end
 
