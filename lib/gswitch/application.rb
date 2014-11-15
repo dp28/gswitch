@@ -6,28 +6,29 @@ module GSwitch
     STACK_DIR_PATH = File.join Dir.home, ".git_switch_stacks"
 
     def initialize argv
-      @args  = argv
-      @stack = GSwitch::PersistentStack.new  current_repo, STACK_DIR_PATH
+      @options  = GSwitch::Options.new argv
+      @git      = GSwitch::GitInterface.new
+      @stack    = GSwitch::PersistentStack.new  @git.current_repo, STACK_DIR_PATH
     end
 
     def run
-      ensure_stack_directory_exists
-      options = GSwitch::Options.new @args
-      puts options.set_flags
-      puts options.branch
-      puts options.quiet
-
-      # if @args[0]
-      #   puts "Pushing #{current_branch} ..."
-      #   @stack.push current_branch
-      #   puts "git checkout #{@args[0]}"
-      # else
-      #   puts "git checkout #{@stack.pop}"
-      # end
-
+      ensure_stack_directory_exists     
+      run_from_options
     end
 
     private
+
+      def run_from_options
+        show_help if @options.set_flags.include? :show_help
+        @options.set_flags.each { |flag| send flag }    
+        if @options.branch
+          puts "Pushing #{@git.current_branch} ..."
+          @stack.push @git.current_branch
+          puts "git checkout #{@options.branch}"
+        else
+          puts "git checkout #{@stack.pop}"
+        end
+      end
 
       def ensure_stack_directory_exists
         unless File.directory? STACK_DIR_PATH
@@ -36,17 +37,9 @@ module GSwitch
         end
       end
 
-      def current_repo
-        repo = `basename \`git rev-parse --show-toplevel\` 2> /dev/null`
-        if $?.success?
-          repo
-        else
-          raise GSwitch::NotGitRepoError.new 
-        end
-      end      
-
-      def current_branch
-        `git branch | sed -n '/\\* /s///p'`.gsub!("\n", "").gsub(" ", "")
+      def show_help
+        @options.print_help
+        exit
       end
   end
 end
