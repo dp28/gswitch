@@ -1,4 +1,6 @@
 module GSwitch
+  class NotGitRepoError < RuntimeError; end
+
   class Application
 
     STACK_DIR_PATH = File.join Dir.home, ".git_switch_stacks"
@@ -16,11 +18,7 @@ module GSwitch
         @stack.push current_branch
         puts "git checkout #{@args[0]}"
       else
-        begin
-          puts "git checkout #{@stack.pop}"
-        rescue GSwitch::PersistentStack::StackEmptyError
-          puts "Stack empty"
-        end
+        puts "git checkout #{@stack.pop}"
       end
 
     end
@@ -35,7 +33,12 @@ module GSwitch
       end
 
       def current_repo
-        `basename \`git rev-parse --show-toplevel\``
+        repo = `basename \`git rev-parse --show-toplevel\` 2> /dev/null`
+        if $?.success?
+          repo
+        else
+          raise GSwitch::NotGitRepoError.new 
+        end
       end      
 
       def current_branch
