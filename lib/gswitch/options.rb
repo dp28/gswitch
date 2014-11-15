@@ -28,6 +28,7 @@ module GSwitch
         @parser.separator ""
         @parser.separator "History stack options:"   
         @parser.on("-c", "--current", "Show current branch.") { add_flag :show_current_branch }
+        @parser.on("-w", "--wipe",    wipe_description)       { add_flag :wipe                }
         @parser.on("-H", "--height",  "Show stack height.")   { add_flag :show_stack_height   }
         @parser.on("-P", "--pop",     pop_description)        { add_flag :pop                 }
         @parser.on("-p", "--push",    push_description)       { add_flag :push                }
@@ -55,6 +56,10 @@ module GSwitch
       def pop_description 
         """Pop top branch from history stack without
            \t\t\t     checking it out.\n  """
+      end
+
+      def wipe_description
+        "Wipe gswitch branch history for current repo."
       end
   end
 end

@@ -19,7 +19,8 @@ module GSwitch
     end
 
     def checkout branch
-      `git checkout #{branch}`
+      puts "EXAMPLE git checkout #{branch}"
+      #{}`git checkout #{branch}`
     end
   end
 end

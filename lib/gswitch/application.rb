@@ -22,12 +22,11 @@ module GSwitch
         flags = @options.set_flags
         show_help if flags.include? :show_help
         if flags.empty?
-          if @options.branch
-            puts "Pushing #{@git.current_branch}#{Time.now} ..."
-            @stack.push "#{@git.current_branch}#{Time.now}"
-            puts "git checkout #{@options.branch}"
+          if @options.branch            
+            push @git.current_branch
+            @git.checkout @options.branch
           else
-            puts "git checkout #{@stack.pop}"
+            pop
           end
         else
           flags.each { |flag| send flag }  
@@ -46,12 +45,14 @@ module GSwitch
         exit
       end
 
-      def push
-
+      def push branch_name=nil
+        branch = branch_name || @options.branch || @git.current_branch
+        puts "Pushing #{branch}"
+        @stack.push branch
       end
 
       def pop
-
+        puts "Popped #{@stack.pop}"
       end
 
       def show_current_branch 
@@ -72,6 +73,10 @@ module GSwitch
 
       def show_top  
         puts @stack.peek
+      end
+
+      def wipe
+        @stack.empty
       end          
   end
 end

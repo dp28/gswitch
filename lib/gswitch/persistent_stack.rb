@@ -22,11 +22,19 @@ module GSwitch
     end
 
     def get_raw_stack
-      File.open(@path, "r").readlines
+      stack_file = File.open(@path, "r")
+      lines = stack_file.readlines
+      stack_file.close
+      lines
     end
 
     def height
       get_raw_stack.size
+    end
+
+    def empty      
+      stack_file = File.open(@path, "w")
+      stack_file.close
     end
 
     private
