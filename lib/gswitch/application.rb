@@ -55,7 +55,7 @@ module GSwitch
       end
 
       def show_current_branch 
-
+        puts @git.current_branch
       end
 
       def show_stack_height  
