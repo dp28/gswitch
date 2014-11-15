@@ -59,7 +59,9 @@ module GSwitch
       end
 
       def show_stack_height  
-
+        height = @stack.height
+        branch = height == 1 ? "branch" : "branches"
+        puts "There are #{height} stored #{branch} for this repo."
       end
 
       def show_stack  

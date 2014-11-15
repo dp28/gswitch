@@ -25,6 +25,10 @@ module GSwitch
       File.open(@path, "r").readlines
     end
 
+    def height
+      get_raw_stack.size
+    end
+
     private
 
       def full_path file_name, stack_dir_path
