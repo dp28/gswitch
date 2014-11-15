@@ -19,15 +19,19 @@ module GSwitch
     private
 
       def run_from_options
-        show_help if @options.set_flags.include? :show_help
-        @options.set_flags.each { |flag| send flag }    
-        if @options.branch
-          puts "Pushing #{@git.current_branch} ..."
-          @stack.push @git.current_branch
-          puts "git checkout #{@options.branch}"
+        flags = @options.set_flags
+        show_help if flags.include? :show_help
+        if flags.empty?
+          if @options.branch
+            puts "Pushing #{@git.current_branch}#{Time.now} ..."
+            @stack.push "#{@git.current_branch}#{Time.now}"
+            puts "git checkout #{@options.branch}"
+          else
+            puts "git checkout #{@stack.pop}"
+          end
         else
-          puts "git checkout #{@stack.pop}"
-        end
+          flags.each { |flag| send flag }  
+        end  
       end
 
       def ensure_stack_directory_exists
@@ -41,5 +45,31 @@ module GSwitch
         @options.print_help
         exit
       end
+
+      def push
+
+      end
+
+      def pop
+
+      end
+
+      def show_current_branch 
+
+      end
+
+      def show_stack_height  
+
+      end
+
+      def show_stack  
+        stack   = @stack.get_raw_stack
+        height  = stack.length
+        stack.each_with_index { |branch, i| puts "#{height - i}. #{branch}" }
+      end   
+
+      def show_top  
+        puts @stack.peek
+      end          
   end
 end

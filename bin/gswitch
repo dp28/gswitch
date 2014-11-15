@@ -6,7 +6,7 @@ begin
 rescue GSwitch::NotGitRepoError
   abort 
 rescue GSwitch::PersistentStack::StackEmptyError
-  abort "gswitch: No branch history - staying on current branch."
+  abort "gswitch: No branch history, aborting."
 rescue OptionParser::InvalidOption => err
   abort "gswitch: #{err.message}\nusage: gswitch [-ps] [branch]"
 end
