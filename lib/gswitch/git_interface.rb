@@ -1,4 +1,7 @@
 module GSwitch
+
+  class NotGitRepoError < RuntimeError; end
+
   class GitInterface 
 
     def current_repo
@@ -6,7 +9,7 @@ module GSwitch
       if $?.success?
         repo
       else
-        raise GSwitch::NotGitRepoError.new 
+        raise NotGitRepoError.new 
       end
     end      
 

@@ -2,7 +2,7 @@
 require_relative "../lib/gswitch"
 
 begin
-  GSwitch::Application.new(ARGV).run
+  GSwitch::ApplicationController.new(ARGV).run
 rescue GSwitch::NotGitRepoError
   abort 
 rescue GSwitch::PersistentStack::StackEmptyError
