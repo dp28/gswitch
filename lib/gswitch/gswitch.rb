@@ -5,9 +5,12 @@ module GSwitch
   class GSwitch
     STACK_DIR_PATH = File.join Dir.home, ".git_switch_stacks"
 
+    attr_accessor :show_output
+
     def initialize
-      @git      = GitInterface.new
-      @stack    = PersistentStack.new  @git.current_repo, STACK_DIR_PATH
+      @git          = GitInterface.new
+      @stack        = PersistentStack.new  @git.current_repo, STACK_DIR_PATH
+      @show_output  = true
     end
 
     def move branch
@@ -25,13 +28,13 @@ module GSwitch
 
     def push branch=nil
       branch ||= @git.current_branch
-      puts "Pushing #{branch}"
+      display_message "Pushing #{branch}"
       @stack.push branch
     end
 
     def pop
       popped = @stack.pop
-      puts "Popped #{popped}"
+      display_message "Popped #{popped}"
       popped
     end
 
@@ -61,6 +64,10 @@ module GSwitch
     end
 
     private 
+
+      def display_message message
+        puts message if @show_output
+      end
 
       def push_current_and_checkout branch
         push

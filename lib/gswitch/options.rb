@@ -4,11 +4,11 @@ module GSwitch
     attr_reader :branch, :set_flags, :quiet
 
     def initialize argv
-      @set_flags = []
-      @parser = OptionParser.new 
-      @quiet = false
+      @set_flags  = []
+      @parser     = OptionParser.new 
+      @quiet      = false
       setup_parser
-      @branch = @parser.parse(argv).first
+      @branch     = @parser.parse(argv).first
       @set_flags.uniq!
     end
 
@@ -48,8 +48,8 @@ module GSwitch
       def other_options
         @parser.separator ""
         @parser.separator "Other options:"
-        @parser.on("-h", "--help",    "Print this message.")  { add_flag :show_help }
-        @parser.on("-q", "--quiet",   "Run without output.")  { @quiet = true       }
+        @parser.on("-h", "--help",    "Print this message.")  { add_flag :show_help           }
+        @parser.on("-q", "--quiet",   "Run without output.")  { @quiet = true                 }
       end
 
       def add_flag flag

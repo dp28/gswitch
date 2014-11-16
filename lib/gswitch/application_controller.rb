@@ -18,7 +18,9 @@ module GSwitch
 
       def run_from_options
         flags = @options.set_flags
-        show_help if flags.include? :show_help
+        show_help if flags.include? :show_help 
+
+        @gswitch.show_output = !@options.quiet
         if flags.empty?
           run_without_flags
         else
