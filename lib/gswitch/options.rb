@@ -19,15 +19,24 @@ module GSwitch
     private
 
       def setup_parser
-        @parser.banner = "Usage: gswitch [options] [branch]"
+        @parser.banner = "Usage: gswitch [-bcmwHPpsthq] [branch]"
+        git_options
         stack_options
         other_options
+      end
+
+      def git_options
+        @parser.separator ""
+        @parser.separator "Git options:"   
+        @parser.on("-b", "--back",    back_description)       { add_flag :back                }
+        @parser.on("-c", "--current", "Show current branch.") { add_flag :show_current_branch }
+        @parser.on("-m", "--move",    move_description)       { add_flag :move                }
+
       end
 
       def stack_options
         @parser.separator ""
         @parser.separator "History stack options:"   
-        @parser.on("-c", "--current", "Show current branch.") { add_flag :show_current_branch }
         @parser.on("-w", "--wipe",    wipe_description)       { add_flag :wipe                }
         @parser.on("-H", "--height",  "Show stack height.")   { add_flag :show_stack_height   }
         @parser.on("-P", "--pop",     pop_description)        { add_flag :pop                 }
@@ -60,6 +69,18 @@ module GSwitch
 
       def wipe_description
         "Wipe gswitch branch history for current repo."
+      end
+
+      def back_description
+        """Pop the last branch and check it out 
+           \t\t\t     [default for no arguments].\n """
+      end
+
+      def move_description
+        """Push the current branch and checkout the
+           \t\t\t     specified branch. 
+           \t\t\t     [default with one branch argument,
+           \t\t\t     eg gswitch master].\n """
       end
   end
 end

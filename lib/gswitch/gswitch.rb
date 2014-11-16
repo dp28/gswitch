@@ -1,4 +1,7 @@
 module GSwitch
+
+  class NoBranchSpecifiedError < RuntimeError; end
+
   class GSwitch
     STACK_DIR_PATH = File.join Dir.home, ".git_switch_stacks"
 
@@ -7,12 +10,15 @@ module GSwitch
       @stack    = PersistentStack.new  @git.current_repo, STACK_DIR_PATH
     end
 
-    def push_current_and_checkout branch
-      push
-      @git.checkout branch
+    def move branch
+      if branch.nil?
+        raise NoBranchSpecifiedError.new
+      else
+        push_current_and_checkout branch
+      end
     end
 
-    def pop_and_checkout
+    def back
       branch = pop
       @git.checkout branch
     end
@@ -53,5 +59,12 @@ module GSwitch
     def wipe
       @stack.empty!
     end
+
+    private 
+
+      def push_current_and_checkout branch
+        push
+        @git.checkout branch
+      end
   end
 end

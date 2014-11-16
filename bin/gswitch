@@ -5,8 +5,10 @@ begin
   GSwitch::ApplicationController.new(ARGV).run
 rescue GSwitch::NotGitRepoError
   abort 
+rescue GSwitch::NoBranchSpecifiedError
+  abort "gswitch: Invalid arguments. No branch specified."
 rescue GSwitch::PersistentStack::StackEmptyError
   abort "gswitch: No branch history, aborting."
 rescue OptionParser::InvalidOption => err
-  abort "gswitch: #{err.message}\nusage: gswitch [-ps] [branch]"
+  abort "gswitch: #{err.message}\nUsage: gswitch [-bcmwHPpsthq] [branch]"
 end

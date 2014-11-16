@@ -22,15 +22,27 @@ module GSwitch
         if flags.empty?
           run_without_flags
         else
-          flags.each { |flag| @gswitch.send flag }  
+          run_from_flags flags  
         end  
       end
 
       def run_without_flags
         if @options.branch            
-          @gswitch.push_current_and_checkout @options.branch
+          @gswitch.move @options.branch
         else
           @gswitch.pop_and_checkout
+        end
+      end
+
+      def run_from_flags flags
+        flags.each { |flag| send_flag flag }
+      end
+
+      def send_flag flag
+        if @gswitch.method(flag).arity == 0
+          @gswitch.send flag
+        else
+          @gswitch.send flag, @options.branch
         end
       end
 
