@@ -51,7 +51,7 @@ module GSwitch
     end
 
     def wipe
-      @stack.empty
+      @stack.empty!
     end
   end
 end

@@ -22,8 +22,8 @@ module GSwitch
     end
 
     def get_raw_stack
-      stack_file = File.open(@path, "r")
-      lines = stack_file.readlines
+      stack_file = File.open @path, "r"
+      lines = stack_file.read.split
       stack_file.close
       lines
     end
@@ -32,8 +32,8 @@ module GSwitch
       get_raw_stack.size
     end
 
-    def empty      
-      stack_file = File.open(@path, "w")
+    def empty!      
+      stack_file = File.open @path, "w"
       stack_file.close
     end
 
@@ -46,7 +46,7 @@ module GSwitch
       def try_get_last_line delete=false
         begin
           get_last_line delete
-        rescue EOFError
+        rescue EOFError, Errno::ENOENT
           raise StackEmptyError.new
         end
       end
@@ -54,7 +54,7 @@ module GSwitch
       def get_last_line delete
         stack_file  = File.open @path, "r+"
         last_line   = move_to_last_line_of_file stack_file
-        line        = stack_file.readline
+        line        = stack_file.readline.split.first
         stack_file.truncate last_line if delete
         stack_file.close
         line
