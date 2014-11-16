@@ -23,7 +23,11 @@ module GSwitch
 
     def back
       branch = pop
-      @git.checkout branch
+      unless try_checkout branch
+        error =  "Failed to checkout #{branch}, staying on"
+        error += " #{@git.current_branch} and discarding #{branch}."
+        STDERR.puts error
+      end
     end
 
     def push branch=nil
@@ -69,9 +73,29 @@ module GSwitch
         puts message if @show_output
       end
 
+      def try_checkout branch
+        begin 
+          checkout branch
+          true
+        rescue CheckoutFailedError
+          false
+        end
+      end
+
+      def checkout branch
+        if @show_output
+          @git.checkout branch
+        else
+          @git.checkout_silently branch
+        end
+      end
+
       def push_current_and_checkout branch
         push
-        @git.checkout branch
+        unless try_checkout branch
+          current = pop
+          STDERR.puts "Failed to checkout #{branch}, staying on #{current}."
+        end
       end
   end
 end

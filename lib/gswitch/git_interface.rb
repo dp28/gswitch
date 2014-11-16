@@ -1,6 +1,7 @@
 module GSwitch
 
-  class NotGitRepoError < RuntimeError; end
+  class NotGitRepoError     < RuntimeError; end
+  class CheckoutFailedError < RuntimeError; end
 
   class GitInterface 
 
@@ -17,13 +18,13 @@ module GSwitch
       `git branch | sed -n '/\\* /s///p'`.gsub!("\n", "").gsub(" ", "")
     end
 
-    def status
-      `git status`
+    def checkout branch
+      raise CheckoutFailedError.new unless system "git checkout #{branch}"
     end
 
-    def checkout branch
-      puts "EXAMPLE git checkout #{branch}"
-      #{}`git checkout #{branch}`
+    def checkout_silently branch
+      `git checkout #{branch}`
+      raise CheckoutFailedError.new unless $?.success?
     end
   end
 end

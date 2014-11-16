@@ -32,7 +32,7 @@ module GSwitch
         if @options.branch            
           @gswitch.move @options.branch
         else
-          @gswitch.pop_and_checkout
+          @gswitch.back
         end
       end
 
