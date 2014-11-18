@@ -1,0 +1,20 @@
+#! /usr/bin/env bash
+
+
+_gswitch()   
+{                
+  local current_word
+  local branches
+  local arguments  
+  COMPREPLY=()   
+
+  branches=`git branch -a | sed -e 's/\*//' -e 's/\s//g' -e 's/remotes\///g' | tr '\n' ' '`
+  arguments="-b -c -m -w -h -s -p -P -t -H -q --back --current --move --wipe --height \
+            --pop --push --top --help --quiet --stack"
+
+  current_word=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $( compgen -W "$branches $arguments" -- $current_word ) )
+  return 0
+}
+
+complete -F _gswitch ./gswitch
