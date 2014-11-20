@@ -1,9 +1,10 @@
 module GSwitch
 
+  STACK_DIR_PATH = File.join Dir.home, ".git_switch_stacks"
+
   class NoBranchSpecifiedError < RuntimeError; end
 
   class GSwitch
-    STACK_DIR_PATH = File.join Dir.home, ".git_switch_stacks"
 
     attr_accessor :show_output
 

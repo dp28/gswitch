@@ -1,9 +1,6 @@
 module GSwitch
 
   class ApplicationController
-
-    STACK_DIR_PATH = File.join Dir.home, ".git_switch_stacks"
-
     def initialize argv
       @options = Options.new argv
       @gswitch = GSwitch.new
