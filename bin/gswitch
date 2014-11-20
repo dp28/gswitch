@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require_relative "../lib/gswitch"
+require "/usr/local/lib/gswitch/gswitch"
 
 begin
   GSwitch::ApplicationController.new(ARGV).run

@@ -1,0 +1,5 @@
+#! /usr/bin/env bash
+
+cp bin/gswitch /usr/local/bin/
+cp -r lib/ /usr/local/lib/gswitch
+. bin/complete_gswitch

@@ -1,8 +1,6 @@
 #! /usr/bin/env bash
 
-
-_gswitch()   
-{                
+_gswitch() {                
   local current_word
   local branches
   local arguments  
@@ -17,4 +15,4 @@ _gswitch()
   return 0
 }
 
-complete -F _gswitch ./gswitch
+complete -F _gswitch gswitch
