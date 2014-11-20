@@ -22,6 +22,7 @@ Usage
 -----
 
 Git options:
+
     -b, --back          Pop the last branch and check it out 
                         [default for no arguments].
  
@@ -32,6 +33,7 @@ Git options:
                         eg gswitch master].
  
 History stack options:
+
     -w, --wipe          Wipe gswitch branch history for current repo.
     -H, --height        Show stack height.
     -P, --pop           Pop top branch from history stack without
@@ -45,5 +47,6 @@ History stack options:
     -t, --top           Show top of stack.
 
 Other options:
+
     -h, --help          Print help message.
     -q, --quiet         Run without output.
