@@ -15,4 +15,4 @@ _gswitch() {
   return 0
 }
 
-complete -F _gswitch gswitch
+complete -F _gswitch "$1"

@@ -14,9 +14,30 @@ Installation
 ```bash
 git clone https://github.com/dp28/gswitch.git
 cd gswitch
-chmod +x installer
-./installer
+sudo make
 ```
+
+Adding Git Branch and Argument Tab Completion
+-----------------------------------------
+
+To allow auto-completing of your local and remote git branch names with the
+`gswitch` command, the following will be added to your .bashrc file during 
+installation:
+
+```bash
+if [ -f /usr/share/git_completion/complete_custom_gswitch ]; then
+  git_switch_commands=( gswitch )
+  for com in "${git_switch_commands[@]}"
+  do
+    . /usr/share/git_completion/complete_custom_gswitch $com
+  done
+fi
+```
+
+Now the tab completions will be set up every time you start your shell.
+
+If you have any aliases for `gswitch`, add them into the `git_switch_commands`
+array declaration to also add tab completion to them.
 
 Usage
 -----

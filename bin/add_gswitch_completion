@@ -1,0 +1,17 @@
+#! /usr/bin/env bash
+
+tab_completion="
+### Added by GSwitch
+# Git switch completion
+if [ -f /usr/share/git_completion/complete_custom_gswitch ]; then
+  git_switch_commands=( gswitch )
+  for com in \"\${git_switch_commands[@]}\"
+  do
+    . /usr/share/git_completion/complete_custom_gswitch \$com
+  done
+fi"
+
+[ -d /usr/share/git_completion ] || mkdir /usr/share/git_completion
+cp bin/complete_custom_gswitch /usr/share/git_completion/complete_custom_gswitch
+echo "$tab_completion" >> ~/.bashrc
+echo -e "\nWhen you next start a shell, gswitch will tab complete its arguments and all git branches."
