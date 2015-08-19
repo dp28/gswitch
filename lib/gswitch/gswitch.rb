@@ -33,13 +33,13 @@ module GSwitch
 
     def push branch=nil
       branch ||= @git.current_branch
-      display_message "Saving '#{branch}' to stack"
+      display_info "Saving '#{branch}' to stack"
       @stack.push branch
     end
 
     def pop
       popped = @stack.pop
-      display_message "Popped '#{popped}' from stack"
+      display_info "Popped '#{popped}' from stack"
       popped
     end
 
@@ -70,10 +70,6 @@ module GSwitch
 
     private
 
-    def display_message message
-      puts message if @show_output
-    end
-
     def try_checkout branch
       begin
         checkout branch
@@ -98,5 +94,24 @@ module GSwitch
         STDERR.puts "Failed to checkout #{branch}, staying on #{current}."
       end
     end
+
+    def display_error error
+      display_message error, RED
+    end
+
+    def display_info info
+      display_message info
+    end
+
+    def display_message message, colour = BLUE
+      puts colorize("git switch: #{message}", colour) if @show_output
+    end
+
+    def colorize(string, colour)
+      "\033[#{colour}m#{string}\033[0m"
+    end
+
+    RED = 31
+    BLUE = 34
   end
 end
