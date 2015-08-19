@@ -43,24 +43,24 @@ module GSwitch
       popped
     end
 
-    def show_current_branch 
+    def show_current_branch
       puts @git.current_branch
     end
 
-    def show_stack_height  
+    def show_stack_height
       height = @stack.height
       branch = height == 1 ? "branch" : "branches"
       is     = height == 1 ? "is"     : "are"
       puts "There #{is} #{height} stored #{branch} for this repo."
     end
 
-    def show_stack  
+    def show_stack
       stack   = @stack.get_raw_stack
       height  = stack.length
       stack.each_with_index { |branch, i| puts "#{height - i}. #{branch}" }
-    end   
+    end
 
-    def show_top  
+    def show_top
       puts @stack.peek
     end
 
@@ -68,35 +68,35 @@ module GSwitch
       @stack.empty!
     end
 
-    private 
+    private
 
-      def display_message message
-        puts message if @show_output
-      end
+    def display_message message
+      puts message if @show_output
+    end
 
-      def try_checkout branch
-        begin 
-          checkout branch
-          true
-        rescue CheckoutFailedError
-          false
-        end
+    def try_checkout branch
+      begin
+        checkout branch
+        true
+      rescue CheckoutFailedError
+        false
       end
+    end
 
-      def checkout branch
-        if @show_output
-          @git.checkout branch
-        else
-          @git.checkout_silently branch
-        end
+    def checkout branch
+      if @show_output
+        @git.checkout branch
+      else
+        @git.checkout_silently branch
       end
+    end
 
-      def push_current_and_checkout branch
-        push
-        unless try_checkout branch
-          current = pop
-          STDERR.puts "Failed to checkout #{branch}, staying on #{current}."
-        end
+    def push_current_and_checkout branch
+      push
+      unless try_checkout branch
+        current = pop
+        STDERR.puts "Failed to checkout #{branch}, staying on #{current}."
       end
+    end
   end
 end
