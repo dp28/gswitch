@@ -33,13 +33,13 @@ module GSwitch
 
     def push branch=nil
       branch ||= @git.current_branch
-      display_message "Pushing #{branch}"
+      display_message "Saving '#{branch}' to stack"
       @stack.push branch
     end
 
     def pop
       popped = @stack.pop
-      display_message "Popped #{popped}"
+      display_message "Popped '#{popped}' from stack"
       popped
     end
 
